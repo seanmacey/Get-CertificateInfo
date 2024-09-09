@@ -151,7 +151,7 @@ function Get-CertificateInfo {
             <#Do this if a terminating exception happens#>
             # the website was not reachable
             $res.Error = "site was not reachable: $($Error[0].exception.innerexception.message)"
-            Write-Host "$($url):$port [$($res.comment)] site was not reachable: $($res.Error)" -ForegroundColor Yellow
+            Write-Host "$($url):$port $($res.comment) $($res.Error)" -ForegroundColor Yellow
             # $res.Error = "site was not reachable: $($error[0].Exception.Message)"
             if ($DontCreateExport) {return}
             return $res
@@ -167,7 +167,7 @@ function Get-CertificateInfo {
             catch [System.Security.Authentication.AuthenticationException] {
                 #AuthenticationException
                 $res.Error = "Cannot negotiate SSL: $($Error[0].exception.innerexception.message)"
-                Write-Host "$($url):$port  [$($res.comment)] Cannot negotiate SSL: $($res.Error)" -ForegroundColor Yellow
+                Write-Host "$($url):$port  $($res.comment)  $($res.Error)" -ForegroundColor Yellow
                 if ($DontCreateExport) {return}
                 $res
                 return
@@ -219,12 +219,12 @@ function Get-CertificateInfo {
             $res.DaysToExpire = $T.Days
             if ($T.Days -le 0) {
                 $res.Error = "Expired Certificate"
-                write-host "$($res.name)  [$($res.comment)] Expired Certificate" -ForegroundColor Yellow
+                write-host "$($res.name)  $($res.comment) Expired Certificate" -ForegroundColor Yellow
             }
 
             elseif ($T.Days -le $warnabout) {
                 $res.Error = "Only $($T.Days) days left before Certificate expires"
-                write-host "$($_renewString)$($res.name) [$($res.comment)] has only $($T.Days) days left before Certificate expires" -ForegroundColor Yellow
+                write-host "$($_renewString)$($res.name) $($res.comment) has only $($T.Days) days left before Certificate expires" -ForegroundColor Yellow
             } 
     }
     if ($DontCreateExport) {return}
