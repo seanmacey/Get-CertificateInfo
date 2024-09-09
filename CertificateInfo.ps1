@@ -109,7 +109,7 @@ function Get-CertificateInfo {
 
         if ($IsSuspended)
         {
-            write-verbose "$Url wont be checked since it is suspended"
+            write-verbose "$Url won't be checked since it is suspended"
             return
         }
         $port = $port.trim(" ")
@@ -150,9 +150,9 @@ function Get-CertificateInfo {
         catch {
             <#Do this if a terminating exception happens#>
             # the website was not reachable
-            $res.Error = $Error[0].exception.innerexception.message
-            Write-Host "$($url):$port $($res.Error)" -ForegroundColor Yellow
-            # $res.Error = $error[0].Exception.Message
+            $res.Error = "site was not reachable: $($Error[0].exception.innerexception.message)"
+            Write-Host "$($url):$port site was not reachable: $($res.Error)" -ForegroundColor Yellow
+            # $res.Error = "site was not reachable: $($error[0].Exception.Message)"
             if ($DontCreateExport) {return}
             return $res
         }
@@ -166,8 +166,8 @@ function Get-CertificateInfo {
             }
             catch [System.Security.Authentication.AuthenticationException] {
                 #AuthenticationException
-                $res.Error = $Error[0].exception.innerexception.message
-                Write-Host "$($url):$port $($res.Error)" -ForegroundColor Yellow
+                $res.Error = "Cannot negotiate SSL: $($Error[0].exception.innerexception.message)"
+                Write-Host "$($url):$port Cannot negotiate SSL: $($res.Error)" -ForegroundColor Yellow
                 if ($DontCreateExport) {return}
                 $res
                 return
